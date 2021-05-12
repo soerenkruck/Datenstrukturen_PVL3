@@ -6,3 +6,5 @@ Sören Dominik Kruck (B_CC_2)
 
 ### Dokumentation
 Es ist eine Dokumentation beigelegt, zum besseren Verständnis.
+
+https://soerenkruck.github.io/Datenstrukturen_PVL3/
