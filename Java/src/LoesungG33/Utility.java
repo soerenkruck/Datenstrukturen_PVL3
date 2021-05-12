@@ -5,7 +5,7 @@ public class Utility {
     /**  Gibt eines String ohne Leerzeichen zurück.
      * @param string Der zu bereinigende String
      * @return Bereinigter String.
-     * @deprecated Man kann einfach java.lang.String.replace() verwenden.
+     * @deprecated
      **/
     public static String getCleanString(String string) {
         return string.replace(" ", "");
