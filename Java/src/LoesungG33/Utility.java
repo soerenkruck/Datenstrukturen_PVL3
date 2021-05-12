@@ -23,7 +23,6 @@ public class Utility {
         }
 
         return true;
-
     }
 
     /**  Prüft, ob ein Zeichen in einer gegben Menge existiert.
