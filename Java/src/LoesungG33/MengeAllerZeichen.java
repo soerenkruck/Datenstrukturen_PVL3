@@ -17,11 +17,17 @@ public class MengeAllerZeichen {
     }
 
     public static char[] getCharsInMenge(Mengen mengen) {
-        return switch (mengen) {
-            case A_MENGE -> A;
-            case B_MENGE -> B;
-            case C_MENGE -> C;
-        };
+
+        switch (mengen) {
+            case A_MENGE:
+                return A;
+            case B_MENGE:
+                return B;
+            case C_MENGE:
+                return C;
+        }
+
+        return null;
     }
 
     public static boolean isCharInMenge(char c, Mengen mengen) {
