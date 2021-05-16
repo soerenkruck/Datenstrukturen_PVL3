@@ -12,10 +12,18 @@ public class MengeAllerZeichen {
         A_MENGE, B_MENGE, C_MENGE
     }
 
+    /**
+     * @return Gibt alle Verfügbaren Zeichen wieder.
+     */
     public static char[][] getAllCharacters() {
         return allCharacters;
     }
 
+    /**
+     * Funktion, die alle Zeichen einer spezifischen Menge zurückgibt.
+     * @param mengen Die Menge, aus der alle Zeichen zurückgegeben werden sollen.
+     * @return Alle Zeichen, die sich in der Menge befinden.
+     */
     public static char[] getCharsInMenge(Mengen mengen) {
 
         switch (mengen) {
@@ -30,6 +38,12 @@ public class MengeAllerZeichen {
         return null;
     }
 
+    /**
+     * Gibt zurück, ob ein bestimmtes Zeichen in einer Menge existent ist.
+     * @param c Der zu überprüfende char
+     * @param mengen Die Menge, welche geprüft wird, ob sich der char c in dieser befindet.
+     * @return Gibt boolean zurück, ob der char sich in der spezifischen Menge befindet.
+     */
     public static boolean isCharInMenge(char c, Mengen mengen) {
         int m = 0;
 
