@@ -7,7 +7,7 @@ public class Loesung_G33 implements PVL3 {
     @Override
     public boolean is_valid_expression(String expression) {
 
-        String cleanString = Utility.getCleanString(expression);
+        String cleanString = expression.replace(" ", "");
 
         if (Utility.isStringOkayFromAvailableCharacters(cleanString, MengeAllerZeichen.getAllCharacters())) {
             return Utility.isStringMathematiclyOkay(cleanString);

@@ -2,15 +2,6 @@ package LoesungG33;
 
 public class Utility {
 
-    /**  Gibt eines String ohne Leerzeichen zurück.
-     * @param string Der zu bereinigende String
-     * @return Bereinigter String.
-     * @deprecated
-     **/
-    public static String getCleanString(String string) {
-        return string.replace(" ", "");
-    }
-
     /**  Prüft, ob ein String nur Zeichen beinhaltet, welche in einer Menge gegeben sind.
      * @param string Der zu überprüfende String
      * @param chars Die Menge der möglichen Zeichen.
@@ -68,6 +59,8 @@ public class Utility {
      **/
     public static boolean isStringMathematiclyOkay(String formel) {
 
+        int anzahlVonC = 0;
+
         for (int i = 0; i < formel.length(); i++) {
 
             char currentChar = formel.charAt(i);
@@ -84,12 +77,12 @@ public class Utility {
             // Regeln:
             if (MengeAllerZeichen.isCharInMenge(currentChar, MengeAllerZeichen.Mengen.A_MENGE)) {
 
+                // Regeln für die A Menge
                 if (nextChar != 0) {
                     if (!(MengeAllerZeichen.isCharInMenge(nextChar, MengeAllerZeichen.Mengen.B_MENGE) || nextChar == '(')) {
                         return false;
                     }
                 } else {
-
                     // Wenn der nächste char nicht existiert, dann ist der Letzte char einer Formel ein +, - oder *; Das Darf nicht sein.
                     return false;
                 }
@@ -101,15 +94,45 @@ public class Utility {
                 }
 
             } else if (MengeAllerZeichen.isCharInMenge(currentChar, MengeAllerZeichen.Mengen.B_MENGE)) {
-                // TODO: Regeln für die B-Menge implementieren.
+
+                // Regeln für die B-Menge
+
+                // Das Folgende muss aus A oder ) sein
+                if (!(MengeAllerZeichen.isCharInMenge(nextChar, MengeAllerZeichen.Mengen.A_MENGE) || nextChar == ')'))
+                    return false;
+
+                // Das element davor muss A oder ( sein, oder keins
+                if (!(MengeAllerZeichen.isCharInMenge(previousChar, MengeAllerZeichen.Mengen.A_MENGE) || previousChar == '(' || previousChar == 0))
+                    return false;
+
             } else if (MengeAllerZeichen.isCharInMenge(currentChar, MengeAllerZeichen.Mengen.C_MENGE)) {
-                // TODO: Regeln für die C-Menge implementieren.
+                if (currentChar == '(') {
+                    if (!(MengeAllerZeichen.isCharInMenge(nextChar, MengeAllerZeichen.Mengen.B_MENGE) || nextChar == '('))
+                        return false;
+
+                    if (!(MengeAllerZeichen.isCharInMenge(previousChar, MengeAllerZeichen.Mengen.A_MENGE) || previousChar == '(' || previousChar == 0))
+                        return false;
+
+                    anzahlVonC++;
+                } else if (currentChar == ')') {
+                    if (!(MengeAllerZeichen.isCharInMenge(nextChar, MengeAllerZeichen.Mengen.A_MENGE) || nextChar == ')' || nextChar == 0))
+                        return false;
+
+                    if (!(MengeAllerZeichen.isCharInMenge(previousChar, MengeAllerZeichen.Mengen.B_MENGE) || previousChar == ')'))
+                        return false;
+
+                    anzahlVonC--;
+                }
             } else {
                 return false;
             }
         }
 
-        return true;
+        // Prüft ob Anzahl der Elemente aus C (nur '(' und ')') gleich häufig vertreten sind.
+        if (anzahlVonC == 0)
+            return true;
+        else
+            return false;
 
     }
 }
