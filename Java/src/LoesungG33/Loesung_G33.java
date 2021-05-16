@@ -18,7 +18,18 @@ public class Loesung_G33 implements PVL3 {
 
     @Override
     public int calculate(String expression) {
-        return 0;
+
+        expression = expression.replace("+-", "-");
+
+        /*
+         Laut Aufgabenstellung ist die expression schon valid,
+         aber wir haben das einfach mal noch mit eingebaut, das die Expression
+         überprüft wird.
+        */
+        if (!is_valid_expression(expression))
+            return -1;
+
+        return Utility.calculate(expression);
     }
 
 }

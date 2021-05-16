@@ -22,7 +22,7 @@ public class Utility {
      * @param chars Die Menge der möglichen Zeichen.
      * @return Ist der Char in der Menge
      **/
-    private static boolean isCharInGesamtMenge(char c, char[][] chars) {
+    public static boolean isCharInGesamtMenge(char c, char[][] chars) {
 
         int m = 0;
 
@@ -37,11 +37,12 @@ public class Utility {
     }
 
     /**  Prüft, ob ein Zeichen in einer gegben Menge existiert.
+     * @deprecated
      * @param c Der zu überprüfende Char
      * @param chars Die Menge der möglichen Zeichen.
      * @return Ist der Char in der Menge
      **/
-    private static boolean isCharInMenge(char c, char[] chars) {
+    public static boolean isCharInMenge(char c, char[] chars) {
 
         int m = 0;
 
@@ -129,10 +130,89 @@ public class Utility {
         }
 
         // Prüft ob Anzahl der Elemente aus C (nur '(' und ')') gleich häufig vertreten sind.
-        if (anzahlVonC == 0)
-            return true;
-        else
-            return false;
+        return anzahlVonC == 0;
+    }
 
+    /**
+     *Rechnet einen einfachen Term (ohne Klammersetzung) aus.
+     * @param term Der Term, der ausgerechnet werden soll. (Nur Terme ohne Klammersetzung.)
+     * @return Gibt den ausgerechneten Wert zurück.
+     */
+    public static int calculateSimple(String term) {
+        String[] t = term.replace(")", "").replace("(", "").replace("-", "+-").split("\\+");
+
+        int s = 0;
+        for (String p: t) {
+
+            int val;
+
+            if (p.contains("*")) {
+                String[] u = p.split("\\*");
+
+                val = 1;
+
+                for (String i: u) {
+                    val *= Integer.parseInt(i);
+                }
+            } else {
+                val = Integer.parseInt(p);
+            }
+            s += val;
+        }
+
+        return s;
+    }
+
+    /**
+     * Berechnet einen Term aus Ganzzahlen und ohne Division.
+     * @param expression Term in String-Form
+     * @return Gibt berechneten Int zurück.
+     */
+    public static int calculate(String expression) {
+        return calculateSimple(interprete(expression));
+    }
+
+    /**
+     * Rekursive Methode zum untergliedern eines Terms anhand der Klammersetzung
+     * @param expression Term in String-Form
+     * @return  Gibt Schrittweise untergliederten und aufgelösten Term zurück.
+     */
+    public static String interprete(String expression) {
+        String c = expression;
+
+        if (c.contains("(") && c.contains(")")) {
+            for (int i = 0; i < expression.length(); i++) {
+                char currentChar = expression.charAt(i);
+                if (currentChar == '(') {
+                    i++;
+
+                    int cc = 1;
+
+                    StringBuilder toInterprete = new StringBuilder();
+                    while (expression.charAt(i) != ')' || cc != 0) {
+                        toInterprete.append(expression.charAt(i++));
+                        if (expression.charAt(i) == '(')
+                            cc++;
+
+                        if (expression.charAt(i) == ')')
+                            cc--;
+                    }
+
+                    System.out.println(toInterprete);
+
+                    String g = interprete(toInterprete.toString());
+
+                    if (g.contains("("))
+                        c = expression.replace("(" + toInterprete + ")", g);
+                    else
+                        c = expression.replace("(" + toInterprete + ")", String.valueOf(calculateSimple(g)));
+
+                }
+            }
+        } else {
+            c = String.valueOf(calculateSimple(expression));
+        }
+
+        return c;
     }
 }
